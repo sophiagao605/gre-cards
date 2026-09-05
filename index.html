@@ -136,7 +136,7 @@ function initSections(){
   sections.sort((a,b)=>sectionRank(a)-sectionRank(b)||String(a).localeCompare(String(b)));
   sections.forEach(s=>{const opt=document.createElement('option');opt.value=s;opt.textContent=s;sel.appendChild(opt)})
 }
-function sectionRank(s){const m=String(s||'').match(/Section\s*(\d+)/i);return m?Number(m[1]):9999}
+function sectionRank(s){s=String(s||'');const m=s.match(/Section\s*(\d+)/i);if(m)return Number(m[1]);const d=s.match(/(\d{4})-(\d{2})-(\d{2})/);if(d)return 10000+Number(d[1]+d[2]+d[3]);return 999999}
 function applyFilters(reset=true,speak=false){
   const sec=$('sectionFilter').value,mode=$('modeFilter').value,q=$('searchBox').value.trim().toLowerCase();
   view=DATA.filter(c=>c.deck===activeDeck&&(sec==='all'||(c.section||'未分组')===sec)&&(mode==='all'||hard.has(hardId(c)))&&(!q||JSON.stringify(c).toLowerCase().includes(q)));
